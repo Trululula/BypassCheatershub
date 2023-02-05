@@ -1,0 +1,37 @@
+                                                                                                                                                                                                                                                                       
+
+
+local getx = clonefunction(getgenv)
+
+getx().A = {}
+
+getx().A.httpfunctions = {
+        game.HttpGet,
+        game.HttpGetAsync,
+        game.HttpPost,
+        game.HttpPostAsync,
+        game.GetObjects
+}
+
+getx().A.metamethod = clonefunction(hookmetamethod)
+getx().A.hookfunction = clonefunction(hookfunction)
+
+getx().A.namecall = getx().A.metamethod(game, "__namecall", newcclosure(function(self, k, ...)
+    if string.find(getnamecallmethod():lower(), "http") then
+        if string.find(k, "kelprepl.repl.co") then
+           return "CRACKED" 
+        end
+    end
+    return getx().A.namecall(self, k, ...)
+end))
+
+for _,v in pairs(getx().A.httpfunctions) do
+   getx().A.httpfunctions[_] = getx().A.hookfunction(v, newcclosure(function(self, ...)
+       if string.find(..., "kelprepl.repl.co") then
+       return "CRACKED"    
+       end
+   return getx().A.httpfunctions[_](self, ...)
+   end))
+end
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Steveee11/Scripts/main/Cheaters%20Hub",true))();
